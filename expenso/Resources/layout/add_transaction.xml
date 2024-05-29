@@ -1,0 +1,155 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+    
+    <Button
+        android:id="@+id/income_btn2"
+        android:text="income"
+        android:textAllCaps="false"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.15" />
+
+    <Button
+        android:id="@+id/expense_btn2"
+        android:text="expense"
+        android:textAllCaps="false"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.85" />
+    
+    <EditText
+        android:id="@+id/transaction_amount"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:hint="0"
+        app:layout_constraintTop_toBottomOf="@+id/income_btn2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:inputType="number"
+        
+        />
+    
+    <TextView
+        android:id="@+id/category_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="categories:"
+        app:layout_constraintTop_toBottomOf="@+id/comment"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    
+    
+    <EditText
+        android:id="@+id/comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="comment"
+        android:inputType="text"
+        app:layout_constraintTop_toBottomOf="@id/transaction_amount" />
+
+    <Button
+            android:id="@+id/leisure_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="leisure"
+            android:textAllCaps="false" 
+            app:layout_constraintTop_toBottomOf="@id/category_header"
+         app:layout_constraintStart_toStartOf="parent"
+        
+        />
+        
+        <Button
+            android:id="@+id/health_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="health"
+            android:textAllCaps="false"
+            app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="10dp" 
+            app:layout_constraintBaseline_toBaselineOf="@+id/leisure_btn"
+        />
+        
+        <Button
+            android:id="@+id/food_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="food"
+            android:textAllCaps="false"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.99"
+            app:layout_constraintBaseline_toBaselineOf="@+id/leisure_btn"
+
+        />
+    
+    <Button
+        android:id="@+id/add_btn"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="add"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+
+    <TextView 
+        android:id="@+id/date_header"
+        app:layout_constraintTop_toBottomOf="@+id/leisure_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pick a date"
+        android:layout_marginTop="20sp"
+        />
+
+
+    <Button
+        android:id="@+id/today_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="today"
+        android:textAllCaps="false"
+        app:layout_constraintTop_toBottomOf="@+id/date_header" 
+        app:layout_constraintStart_toStartOf="parent"
+        
+        />
+
+    <Button
+        android:id="@+id/yesterday_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="yesterday"
+        android:textAllCaps="false"
+        app:layout_constraintBaseline_toBaselineOf="@+id/today_btn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/custom_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="custom"
+        android:textAllCaps="false"
+        app:layout_constraintBaseline_toBaselineOf="@+id/today_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.99" />
+    
+    <Button
+        android:id="@+id/cancel_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="cancel"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
