@@ -1,16 +1,6 @@
-﻿using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
+﻿using SQLite;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using SQLite;
-using Android.Graphics;
-using System.ComponentModel.DataAnnotations.Schema;
+
 namespace expenso
 {
     [Table("transfer")]
@@ -25,17 +15,24 @@ namespace expenso
 
         public DateTime Date { get; set; }
 
-        public bool IsPositive {  get; set; }
+        public bool IsPositive { get; set; }
 
-        public string Category {  get; set; }
+        public string Category { get; set; }
 
-        [Indexed] // Index for faster retrieval
+        [Indexed]
         public int UserId { get; set; } // Foreign key referencing User_Data table
-       
+
+        public string Address { get; set; } // Address property
+
+        public double Latitude { get; set; } // Latitude property
+
+        public double Longitude { get; set; } // Longitude property
+
+        public string ImageUri { get; set; } // Property to store image URI
 
         public Transfer() { }
 
-        public Transfer(int id, int amount, string comment, DateTime date, int userId, string category)
+        public Transfer(int id, int amount, string comment, DateTime date, int userId, string category, string address, double latitude, double longitude, string imageUri)
         {
             this.Id = id;
             this.Amount = amount;
@@ -43,6 +40,10 @@ namespace expenso
             this.Date = date;
             this.UserId = userId; // Assign user ID to transaction
             this.Category = category;
+            this.Address = address;
+            this.Latitude = latitude;
+            this.Longitude = longitude;
+            this.ImageUri = imageUri; // Set image URI
         }
     }
 }

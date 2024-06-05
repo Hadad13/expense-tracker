@@ -28,7 +28,18 @@
         android:text="print data"
         android:textAllCaps="false"
         
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         
+        />
+
+    <Button
+        android:id="@+id/clear_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="clear"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="parent"
         
         />
 

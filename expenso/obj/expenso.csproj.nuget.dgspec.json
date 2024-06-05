@@ -58,6 +58,10 @@
               "target": "Package",
               "version": "[1.10.0.3, )"
             },
+            "Xamarin.GooglePlayServices.Location": {
+              "target": "Package",
+              "version": "[121.1.0, )"
+            },
             "sqlite-net-pcl": {
               "target": "Package",
               "version": "[1.9.172, )"

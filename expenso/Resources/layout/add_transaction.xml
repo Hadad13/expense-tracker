@@ -14,6 +14,30 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.15" />
 
+
+    <TextView
+        android:id="@+id/is_positive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="tran type"
+        app:layout_constraintStart_toEndOf="@+id/income_btn2"
+        app:layout_constraintBaseline_toBaselineOf="@+id/income_btn2"
+        android:layout_marginLeft="8dp"
+        
+        />
+
+
+    <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+            android:id="@+id/adress_tv"
+        android:text="adress"
+        app:layout_constraintBottom_toTopOf="@id/add_btn"
+        
+        
+        
+        />
+
     <Button
         android:id="@+id/expense_btn2"
         android:text="expense"
@@ -34,6 +58,36 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:inputType="number"
         
+        />
+
+    <Button
+        android:id="@+id/adress_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="set adress"
+        android:textAllCaps="false"
+        app:layout_constraintTop_toBottomOf="@id/today_btn"
+        
+        />
+
+    <ImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:id="@+id/photo_view"
+     app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/cancel_btn"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <Button
+        android:id="@+id/photo_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="take photo"
+        android:textAllCaps="false"
+        app:layout_constraintBaseline_toBaselineOf="@+id/adress_btn"        
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         />
     
     <TextView

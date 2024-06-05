@@ -8,7 +8,7 @@ package androidx.customview.poolingcontainer;
 
 public final class R {
 	public static final class id {
-		public static final int is_pooling_container_tag = 0x7f080100;
-		public static final int pooling_container_listener_holder_tag = 0x7f080184;
+		public static final int is_pooling_container_tag = 0x7f08010b;
+		public static final int pooling_container_listener_holder_tag = 0x7f080193;
 	}
 }

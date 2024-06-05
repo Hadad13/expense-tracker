@@ -24,11 +24,19 @@ namespace expenso
         private ListView transactions_lv;
         private ChartView pie_chart;
 
-
         private List<Transfer> allTransfers; // To store all transfers
         private int totalAmount; // To store the total amount
         private bool showIncome = true; // To track income button state
         private bool showExpense = true; // To track expense button state
+
+        // Define a dictionary for category colors
+        private readonly Dictionary<string, string> categoryColors = new Dictionary<string, string>
+        {
+            { "Health", "#FF0000" },   // Red
+            { "Leisure", "#0000FF" },  // Blue
+            { "Food", "#FFFF00" }      // Yellow
+            // Add more categories and colors as needed
+        };
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -77,7 +85,16 @@ namespace expenso
             DrawChart();
         }
 
-        void DrawChart()
+
+        protected override void OnResume()
+        {
+            base.OnResume();
+            // Reload all transfers and display categories by default
+            LoadAllTransfers();
+            DisplayCategories();
+            DrawChart() ;
+        }
+        public void DrawChart()
         {
             // Get the list of categories for the current time span
             var categories = GetVisibleCategoriesFromListView();
@@ -85,19 +102,34 @@ namespace expenso
             // Calculate total amount of the time span
             int totalAmountForTimeSpan = CalculateTotalAmountForTimeSpanGraph(categories);
 
+            // Check if the total amount is greater than zero or if there are no categories to avoid division by zero
+            if (totalAmountForTimeSpan == 0 || categories.Count == 0)
+            {
+                // Handle the case where total amount is zero or no categories
+                total_of_time.Text = GetNoTransactionsMessage();
+                pie_chart.Chart = new DonutChart() // Display an empty chart
+                {
+                    Entries = new List<ChartEntry>(),
+                    HoleRadius = 0.5f // Adjust the hole radius to make it a donut shape
+                };
+                return;
+            }
+
+            total_of_time.Text = totalAmountForTimeSpan.ToString();
+
             // Create entries for the chart
             var entries = new List<ChartEntry>();
             foreach (var category in categories)
             {
                 // Calculate percentage for each category
-                float percentage = (float)(category.TotalAmount / (double)totalAmountForTimeSpan) * 100;
+                float percentage = (float)category.TotalAmount / totalAmountForTimeSpan * 100;
 
                 // Add entry for the category
                 entries.Add(new ChartEntry(percentage)
                 {
                     Label = category.Name,
                     ValueLabel = $"{percentage:0.00}%",
-                    Color = SKColor.Parse(GetRandomColor()) // Use a method to generate random color or specify fixed colors for categories
+                    Color = SKColor.Parse(GetCategoryColor(category.Name)) // Use the dictionary to get the color
                 });
             }
 
@@ -112,54 +144,30 @@ namespace expenso
             pie_chart.Chart = chart;
         }
 
-        int CalculateTotalAmountForTimeSpanGraph(List<Category> categories)
+        private string GetNoTransactionsMessage()
         {
-            // Get the list of visible categories from the list view
-            var visibleCategories = GetVisibleCategoriesFromListView();
-
-            // Calculate the total amount for the visible categories
-            int totalAmount = 0;
-            foreach (var category in visibleCategories)
+            if (day_btn.Pressed)
             {
-                totalAmount += category.TotalAmount;
+                return "No transactions this day";
             }
-            return totalAmount;
-        }
-
-        List<Category> GetVisibleCategoriesFromListView()
-        {
-            var filteredTransfers = allTransfers.Where(t =>
-                 (showIncome && t.IsPositive) ||
-                 (showExpense && !t.IsPositive))
-                 .Where(t => IsTransferInCurrentTimePeriod(t))
-                 .ToList();
-
-            var categories = filteredTransfers
-                .GroupBy(t => t.Category)
-                .Select(g => new Category
-                {
-                    Name = g.Key,
-                    Transfers = g.ToList()
-                })
-                .ToList();
-
-            return categories;
+            else if (week_btn.Pressed)
+            {
+                return "No transactions this week";
+            }
+            else if (month_btn.Pressed)
+            {
+                return "No transactions this month";
+            }
+            else
+            {
+                return "No transactions in the selected period";
+            }
         }
 
 
-        bool IsListViewItemVisible(int position)
+        public int CalculateTotalAmountForTimeSpanGraph(List<Category> categories)
         {
-            // Check if the ListView item at the specified position is visible
-            int firstVisiblePosition = transactions_lv.FirstVisiblePosition;
-            int lastVisiblePosition = transactions_lv.LastVisiblePosition;
-
-            return (position >= firstVisiblePosition && position <= lastVisiblePosition);
-        }
-
-        int CalculateTotalAmountForTimeSpan(List<Category> categories)
-        {
-            // Calculate the total amount for the current time span
-            // Iterate through categories and sum up their total amounts
+            // Calculate the total amount for the visible categories
             int totalAmount = 0;
             foreach (var category in categories)
             {
@@ -168,12 +176,38 @@ namespace expenso
             return totalAmount;
         }
 
-        string GetRandomColor()
+        public List<Category> GetVisibleCategoriesFromListView()
         {
-            // Generate a random color for chart entries
-            Random rand = new Random();
-            var color = String.Format("#{0:X6}", rand.Next(0x1000000));
-            return color;
+            var filteredTransfers = allTransfers.Where(t =>
+                (showIncome && t.IsPositive) ||
+                (showExpense && !t.IsPositive))
+                .Where(t => IsTransferInCurrentTimePeriod(t))
+                .ToList();
+
+            var categories = filteredTransfers
+                .GroupBy(t => t.Category)
+                .Select(g => new Category
+                {
+                    Name = g.Key,
+                    TotalAmount = g.Sum(t => t.Amount), // Ensure to sum up the amounts here
+                    Transfers = g.ToList()
+                })
+                .ToList();
+
+            return categories;
+        }
+
+        public string GetCategoryColor(string categoryName)
+        {
+            // Get the color from the dictionary or return a default color if not found
+            if (categoryColors.TryGetValue(categoryName, out var color))
+            {
+                return color;
+            }
+            else
+            {
+                return "#CCCCCC"; // Default color if category not found in the dictionary
+            }
         }
 
         public void OnClick(View v)
@@ -196,6 +230,7 @@ namespace expenso
                 showExpense = false;
                 income_btn.Pressed = showIncome; // Set button state
                 DisplayCategories(); // Update displayed categories
+                DrawChart();
             }
             else if (v == expense_btn)
             {
@@ -203,21 +238,25 @@ namespace expenso
                 showIncome = false;
                 expense_btn.Pressed = showExpense; // Set button state
                 DisplayCategories(); // Update displayed categories
+                DrawChart();
             }
             else if (v == day_btn)
             {
                 DisplayCurrentDate();
                 DisplayCurrentDayTransactions();
+                DrawChart();
             }
             else if (v == week_btn)
             {
                 DisplayCurrentWeek();
                 DisplayCurrentWeekTransactions();
+                DrawChart();
             }
             else if (v == month_btn)
             {
                 DisplayCurrentMonth();
                 DisplayCurrentMonthTransactions();
+                DrawChart();
             }
             else if (v == clear_btn)
             {
@@ -227,13 +266,16 @@ namespace expenso
             {
                 // Move to the previous time span
                 MoveToPreviousTimeSpan();
+                DrawChart();
             }
             else if (v == rightArrow_btn)
             {
                 // Move to the next time span
                 MoveToNextTimeSpan();
+                DrawChart();
             }
         }
+
 
         private void MoveToPreviousTimeSpan()
         {
@@ -269,18 +311,6 @@ namespace expenso
                 newDate = DateTime.ParseExact(date_tv.Text, "dd.MM.yyyy", CultureInfo.InvariantCulture).AddDays(increment);
                 date_tv.Text = newDate.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture);
             }
-            // Update displayed transactions based on the new date
-            DisplayCategories();
-        }
-
-        protected override void OnResume()
-        {
-            base.OnResume();
-            // Reload all transfers and display categories by default
-            LoadAllTransfers();
-            DisplayCategories();
-            DrawChart();
-
         }
 
         private void LoadAllTransfers()
@@ -315,24 +345,49 @@ namespace expenso
 
         private void DisplayCategories()
         {
-            var filteredTransfers = allTransfers.Where(t =>
-                (showIncome && t.IsPositive) ||
-                (showExpense && !t.IsPositive))
-                .Where(t => IsTransferInCurrentTimePeriod(t))
-                .ToList();
 
-            var categories = filteredTransfers
-                .GroupBy(t => t.Category)
-                .Select(g => new Category
-                {
-                    Name = g.Key,
-                    Transfers = g.ToList()
-                })
-                .ToList();
+
+            if(showIncome)
+            {
+                var filteredTransfers = allTransfers.Where(t =>
+              t.IsPositive)
+              .Where(t => IsTransferInCurrentTimePeriod(t))
+              .ToList();
+
+                var categories = filteredTransfers
+                    .GroupBy(t => t.Category)
+                    .Select(g => new Category
+                    {
+                        Name = g.Key,
+                        Transfers = g.ToList()
+                    })
+                    .ToList();
+                CategoryAdapter adapter = new CategoryAdapter(this, categories, this.total_of_time);
+                transactions_lv.Adapter = adapter;
+            }
+
+            else
+            {
+                var filteredTransfers = allTransfers.Where(t =>
+              !t.IsPositive)
+              .Where(t => IsTransferInCurrentTimePeriod(t))
+              .ToList();
+
+                var categories = filteredTransfers
+                    .GroupBy(t => t.Category)
+                    .Select(g => new Category
+                    {
+                        Name = g.Key,
+                        Transfers = g.ToList()
+                    })
+                    .ToList();
+                CategoryAdapter adapter = new CategoryAdapter(this, categories, this.total_of_time);
+                transactions_lv.Adapter = adapter;
+            }
+          
 
             // Set up the adapter and bind it to the ListView
-            CategoryAdapter adapter = new CategoryAdapter(this, categories, this.total_tv);
-            transactions_lv.Adapter = adapter;
+            
         }
 
         private bool IsTransferInCurrentTimePeriod(Transfer transfer)
@@ -398,7 +453,6 @@ namespace expenso
             return false;
         }
 
-
         private int GetLoggedInUserId()
         {
             // Get the SharedPreferences instance
@@ -441,43 +495,37 @@ namespace expenso
         private void DisplayCurrentDayTransactions()
         {
             var today = DateTime.Today;
-            var dayTransfers = allTransfers.Where(t => t.Date.Date == today).ToList();
-            DisplayTransactions(dayTransfers);
+            var dayTransfers = allTransfers.Where(t => t.Date.Date == today &&
+                                                      ((showIncome && t.IsPositive) ||
+                                                       (showExpense && !t.IsPositive))).ToList();
+            DisplayCategories();
         }
 
         private void DisplayCurrentWeekTransactions()
         {
             var startOfWeek = DateTime.Now.AddDays(-(int)DateTime.Now.DayOfWeek);
             var endOfWeek = startOfWeek.AddDays(6);
-            var weekTransfers = allTransfers.Where(t => t.Date.Date >= startOfWeek.Date && t.Date.Date <= endOfWeek.Date).ToList();
-            DisplayTransactions(weekTransfers);
+            var weekTransfers = allTransfers.Where(t => t.Date.Date >= startOfWeek.Date &&
+                                                        t.Date.Date <= endOfWeek.Date &&
+                                                        ((showIncome && t.IsPositive) ||
+                                                         (showExpense && !t.IsPositive))).ToList();
+            DisplayCategories();
+
         }
 
         private void DisplayCurrentMonthTransactions()
         {
             var currentMonth = DateTime.Now.Month;
             var currentYear = DateTime.Now.Year;
-            var monthTransfers = allTransfers.Where(t => t.Date.Month == currentMonth && t.Date.Year == currentYear).ToList();
-            DisplayTransactions(monthTransfers);
+            var monthTransfers = allTransfers.Where(t => t.Date.Month == currentMonth &&
+                                                         t.Date.Year == currentYear &&
+                                                         ((showIncome && t.IsPositive) ||
+                                                          (showExpense && !t.IsPositive))).ToList();
+            DisplayCategories();
+
         }
 
-        private void DisplayTransactions(List<Transfer> transfers)
-        {
-            var totalAmountForPeriod = CalculateTotalAmount(transfers);
 
-            var categories = transfers
-                .GroupBy(t => t.Category)
-                .Select(g => new Category
-                {
-                    Name = g.Key,
-                    TotalAmount = g.Sum(t => t.Amount),
-                    Percentage = (g.Sum(t => t.Amount) / (double)totalAmountForPeriod) * 100
-                })
-                .ToList();
 
-            // Set up the adapter and bind it to the ListView
-            CategoryAdapter adapter = new CategoryAdapter(this, categories, this.total_tv);
-            transactions_lv.Adapter = adapter;
-        }
     }
 }

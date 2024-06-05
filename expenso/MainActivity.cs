@@ -18,7 +18,7 @@ namespace expenso
         private Button logInBtn;
         private Button signInBtn;
         private Button printUsersButton;
-
+        private Button clearBtn;
 
         protected override void OnCreate(Bundle savedInstanceState)
 {
@@ -30,7 +30,9 @@ namespace expenso
             this.signInBtn = FindViewById<Button>(Resource.Id.signInBtn);
             this.logInBtn = FindViewById<Button>(Resource.Id.logInBtn);
             this.printUsersButton = FindViewById<Button>(Resource.Id.print_data);
+            this.clearBtn = FindViewById<Button>(Resource.Id.clear_data);
 
+            this.clearBtn.SetOnClickListener(this);
             this.printUsersButton.SetOnClickListener(this);
             this.signInBtn.SetOnClickListener(this);
             this.logInBtn.SetOnClickListener(this);
@@ -59,7 +61,26 @@ namespace expenso
                 // Display users in a pop-up message or logcat
                 DisplayUsers(users);
             }
+            else if(v == clearBtn)
+            {
+                
+                    // Clear the database
+                    ClearDatabase();
+                
+            }
+            
+
         }
+
+        private void ClearDatabase()
+        {
+            // Create an instance of SqlData class
+            SqlData sqlData = new SqlData("expenso.db");
+
+            // Clear the database
+            sqlData.ClearDatabase();
+        }
+
 
         private List<User_Data> GetUsersFromDatabase()
         {

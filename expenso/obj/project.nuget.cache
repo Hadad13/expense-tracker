@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "Bf/uOXzMJ9S1b2+TBy0549CPa1Ufy++uxBnSesikwq+9absm3RiSkR/i8nW3FnCDrMMzYldtYwhyGBy84WZAgg==",
+  "dgSpecHash": "PM28TQDqCNI7UAfWfSbicCF8W/YSadaSa8Uzmt0sz+pqs+wOOmncM/F/4vazJWuVjvoZnyInVYyEN1VZXBtLig==",
   "success": true,
   "projectFilePath": "C:\\Users\\omrik\\source\\repos\\expenso\\expenso\\expenso.csproj",
   "expectedPackageFiles": [
@@ -69,10 +69,15 @@
     "C:\\Users\\omrik\\.nuget\\packages\\xamarin.androidx.versionedparcelable\\1.2.0.1\\xamarin.androidx.versionedparcelable.1.2.0.1.nupkg.sha512",
     "C:\\Users\\omrik\\.nuget\\packages\\xamarin.androidx.viewpager\\1.0.0.23\\xamarin.androidx.viewpager.1.0.0.23.nupkg.sha512",
     "C:\\Users\\omrik\\.nuget\\packages\\xamarin.androidx.viewpager2\\1.0.0.25\\xamarin.androidx.viewpager2.1.0.0.25.nupkg.sha512",
+    "C:\\Users\\omrik\\.nuget\\packages\\xamarin.build.download\\0.11.4\\xamarin.build.download.0.11.4.nupkg.sha512",
     "C:\\Users\\omrik\\.nuget\\packages\\xamarin.essentials\\1.8.1\\xamarin.essentials.1.8.1.nupkg.sha512",
     "C:\\Users\\omrik\\.nuget\\packages\\xamarin.google.android.material\\1.10.0.3\\xamarin.google.android.material.1.10.0.3.nupkg.sha512",
     "C:\\Users\\omrik\\.nuget\\packages\\xamarin.google.errorprone.annotations\\2.23.0.1\\xamarin.google.errorprone.annotations.2.23.0.1.nupkg.sha512",
     "C:\\Users\\omrik\\.nuget\\packages\\xamarin.google.guava.listenablefuture\\1.0.0.18\\xamarin.google.guava.listenablefuture.1.0.0.18.nupkg.sha512",
+    "C:\\Users\\omrik\\.nuget\\packages\\xamarin.googleplayservices.base\\118.3.0\\xamarin.googleplayservices.base.118.3.0.nupkg.sha512",
+    "C:\\Users\\omrik\\.nuget\\packages\\xamarin.googleplayservices.basement\\118.3.0\\xamarin.googleplayservices.basement.118.3.0.nupkg.sha512",
+    "C:\\Users\\omrik\\.nuget\\packages\\xamarin.googleplayservices.location\\121.1.0\\xamarin.googleplayservices.location.121.1.0.nupkg.sha512",
+    "C:\\Users\\omrik\\.nuget\\packages\\xamarin.googleplayservices.tasks\\118.1.0\\xamarin.googleplayservices.tasks.118.1.0.nupkg.sha512",
     "C:\\Users\\omrik\\.nuget\\packages\\xamarin.jetbrains.annotations\\24.1.0.2\\xamarin.jetbrains.annotations.24.1.0.2.nupkg.sha512",
     "C:\\Users\\omrik\\.nuget\\packages\\xamarin.kotlin.stdlib\\1.9.22.1\\xamarin.kotlin.stdlib.1.9.22.1.nupkg.sha512",
     "C:\\Users\\omrik\\.nuget\\packages\\xamarin.kotlinx.coroutines.android\\1.8.0.1\\xamarin.kotlinx.coroutines.android.1.8.0.1.nupkg.sha512",

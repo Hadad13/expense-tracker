@@ -1,6 +1,5 @@
 adaptive-icon;obj\Debug\130\res\mipmap-anydpi-v26\ic_launcher.xml
 adaptive-icon;obj\Debug\130\res\mipmap-anydpi-v26\ic_launcher_round.xml
-androidx.cardview.widget.CardView;obj\Debug\130\res\layout\category_view.xml
 androidx.cardview.widget.CardView;obj\Debug\130\res\layout\main_screen.xml
 androidx.constraintlayout.widget.ConstraintLayout;obj\Debug\130\res\layout\activity_main.xml
 androidx.constraintlayout.widget.ConstraintLayout;obj\Debug\130\res\layout\add_transaction.xml
@@ -9,6 +8,7 @@ androidx.constraintlayout.widget.ConstraintLayout;obj\Debug\130\res\layout\categ
 androidx.constraintlayout.widget.ConstraintLayout;obj\Debug\130\res\layout\log_in.xml
 androidx.constraintlayout.widget.ConstraintLayout;obj\Debug\130\res\layout\main_screen.xml
 androidx.constraintlayout.widget.ConstraintLayout;obj\Debug\130\res\layout\sign_in.xml
+androidx.constraintlayout.widget.ConstraintLayout;obj\Debug\130\res\layout\transaction_row.xml
 background;obj\Debug\130\res\mipmap-anydpi-v26\ic_launcher.xml
 background;obj\Debug\130\res\mipmap-anydpi-v26\ic_launcher_round.xml
 Button;obj\Debug\130\res\layout\activity_main.xml
@@ -28,10 +28,16 @@ external-cache-path;C:\Users\omrik\source\repos\expenso\expenso\obj\Debug\130\lp
 external-path;C:\Users\omrik\source\repos\expenso\expenso\obj\Debug\130\lp\56\jl\res\xml\xamarin_essentials_fileprovider_file_paths.xml
 foreground;obj\Debug\130\res\mipmap-anydpi-v26\ic_launcher.xml
 foreground;obj\Debug\130\res\mipmap-anydpi-v26\ic_launcher_round.xml
+FrameLayout;obj\Debug\130\res\layout\main_screen.xml
+ImageView;obj\Debug\130\res\layout\add_transaction.xml
+item;obj\Debug\130\res\layout\photo_menu.xml
+item;obj\Debug\130\res\layout\transfer_menu.xml
 item;obj\Debug\130\res\values\styles.xml
-LinearLayout;obj\Debug\130\res\layout\transaction_row.xml
+LinearLayout;obj\Debug\130\res\layout\layout1.xml
 ListView;obj\Debug\130\res\layout\category_view.xml
 ListView;obj\Debug\130\res\layout\main_screen.xml
+menu;obj\Debug\130\res\layout\photo_menu.xml
+menu;obj\Debug\130\res\layout\transfer_menu.xml
 Microcharts.Droid.ChartView;obj\Debug\130\res\layout\main_screen.xml
 paths;C:\Users\omrik\source\repos\expenso\expenso\obj\Debug\130\lp\56\jl\res\xml\xamarin_essentials_fileprovider_file_paths.xml
 resources;C:\Users\omrik\source\repos\expenso\expenso\obj\Debug\130\lp\0\jl\res\values\strings.xml
@@ -52,4 +58,3 @@ TextView;obj\Debug\130\res\layout\log_in.xml
 TextView;obj\Debug\130\res\layout\main_screen.xml
 TextView;obj\Debug\130\res\layout\sign_in.xml
 TextView;obj\Debug\130\res\layout\transaction_row.xml
-View;obj\Debug\130\res\layout\main_screen.xml
