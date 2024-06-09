@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="#1A4D2E"
+    >
 
     <TextView
         android:id="@+id/titel_signIn"
@@ -12,6 +14,8 @@
         android:text="Sign Up"
         android:textSize="24sp"
         android:textStyle="bold"
+                android:textColor="#E8DFCA"
+
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,6 +27,9 @@
         android:layout_height="wrap_content"
         android:hint="Email"
         android:inputType="textEmailAddress"
+                android:textColor="#E8DFCA"
+                android:textColorHint="#F5EFE6"
+
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -37,6 +44,9 @@
         android:hint="Password"
         android:inputType="textPassword"
 		app:layout_constraintBottom_toBottomOf="parent"
+                android:textColor="#E8DFCA"
+                android:textColorHint="#F5EFE6"
+
 		app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -49,14 +59,17 @@
         android:layout_height="wrap_content"
         android:text="Sign Up"
 		android:textAllCaps="false"
-        android:textColor="#ffffff"
-        android:background="@color/colorPrimary"
+        android:textColor="#1A4D2E"
+                android:background="@drawable/round_button"
+          
 		app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp"/>
 
     <TextView
+                android:textColor="#F5EFE6"
+
         android:id="@+id/suggestion_signIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

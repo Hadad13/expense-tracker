@@ -207,27 +207,43 @@ namespace expenso
         {
             base.OnActivityResult(requestCode, resultCode, data);
 
-            if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Result.Ok && data != null)
-            {
-                // Save the captured image to a file
-                Bitmap imageBitmap = (Bitmap)data.Extras.Get("data");
-                string imagePath = SaveImageToFile(imageBitmap);
 
-                // Display the saved image
-                if (!string.IsNullOrEmpty(imagePath))
-                {
-                    imageView.SetImageURI(Android.Net.Uri.Parse(imagePath));
-                }
-                else
-                {
-                    // Handle error while saving the image
-                    Toast.MakeText(this, "Failed to save image", ToastLength.Short).Show();
-                }
-            }
-            else if (requestCode == REQUEST_GALLERY_IMAGE && resultCode == Result.Ok && data != null)
+            if (resultCode == Result.Ok)
             {
-                selectedImageUri = data.Data;
-                imageView.SetImageURI(selectedImageUri);
+                if (requestCode == REQUEST_IMAGE_CAPTURE)
+                {
+                    // Check if the captured image data is available
+                    if (data != null && data.Extras != null && data.HasExtra("data"))
+                    {
+                        // Retrieve the captured image bitmap
+                        Bitmap imageBitmap = (Bitmap)data.Extras.Get("data");
+
+                        // Save the captured image to a file
+                        string imagePath = SaveImageToFile(imageBitmap);
+
+                        // Display the saved image
+                        if (!string.IsNullOrEmpty(imagePath))
+                        {
+                            imageView.SetImageURI(Android.Net.Uri.Parse(imagePath));
+                            capturedImageData = File.ReadAllBytes(imagePath); // Save image data if needed
+                        }
+                        else
+                        {
+                            // Handle error while saving the image
+                            Toast.MakeText(this, "Failed to save image", ToastLength.Short).Show();
+                        }
+                    }
+                    else
+                    {
+                        // Handle the case where no image data is available
+                        Toast.MakeText(this, "No image data available", ToastLength.Short).Show();
+                    }
+                }
+                else if (requestCode == REQUEST_GALLERY_IMAGE && resultCode == Result.Ok && data != null)
+                {
+                    selectedImageUri = data.Data;
+                    imageView.SetImageURI(selectedImageUri);
+                }
             }
         }
 
@@ -292,8 +308,8 @@ namespace expenso
                 Date = selectedDate.Date,
                 UserId = userId,
                 IsPositive = isPositive,
-                Category = selectedCategory, // Set the category
-                ImageUri = selectedImageUri != null ? selectedImageUri.ToString() : "", // Pass the image URI or an empty string if no image is selected
+                Category = selectedCategory, // Set the category string i
+                ImageUri = selectedImageUri != null ? selectedImageUri.ToString() : "", // Pass the image URI or an emptyf no image is selected
                 Address = currentAddress // Set the address
             };
 
@@ -303,6 +319,26 @@ namespace expenso
 
             // Display a confirmation message
             Toast.MakeText(this, "Transfer added successfully!", ToastLength.Short).Show();
+
+            if (capturedImageData != null)
+            {
+                string directory = Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryPictures) + "/YourAppName";
+                if (!Directory.Exists(directory))
+                {
+                    Directory.CreateDirectory(directory);
+                }
+
+                // Create a unique file name for the image
+                string fileName = $"IMG_{DateTime.Now.ToString("yyyyMMdd_HHmmss")}.jpg";
+                string filePath = System.IO.Path.Combine(directory, fileName);
+
+                // Save the image to the file
+                File.WriteAllBytes(filePath, capturedImageData);
+
+                // Update the transfer with the image file path
+                newTransfer.ImageUri = filePath;
+                db.UpdateTransfer(newTransfer);
+            }
 
             // Navigate back to MainScreenActivity
             Intent intent = new Intent(this, typeof(MainScreen_activity));

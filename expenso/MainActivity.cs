@@ -11,7 +11,7 @@ using System.Text;
 
 namespace expenso
 {
-    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true)]
+    [Activity(Label = "@string/app_name")]
     public class MainActivity : AppCompatActivity, View.IOnClickListener
     {
         private TextView header;
@@ -19,93 +19,81 @@ namespace expenso
         private Button signInBtn;
         private Button printUsersButton;
         private Button clearBtn;
+        private TextView batteryPercentage;
+        private BatteryService batteryService;
+        private BatteryServiceConnection serviceConnection;
+        private Handler handler;
+        private const int BatteryUpdateIntervalMs = 5000;
 
         protected override void OnCreate(Bundle savedInstanceState)
-{
-    base.OnCreate(savedInstanceState);
-    Xamarin.Essentials.Platform.Init(this, savedInstanceState);
-    // Set our view from the "main" layout resource
-    SetContentView(Resource.Layout.activity_main);
+        {
+            base.OnCreate(savedInstanceState);
+            Xamarin.Essentials.Platform.Init(this, savedInstanceState);
+            SetContentView(Resource.Layout.activity_main);
+
+            Intent batteryServiceIntent = new Intent(this, typeof(BatteryService));
+            StartService(batteryServiceIntent);
+
             this.header = FindViewById<TextView>(Resource.Id.header);
             this.signInBtn = FindViewById<Button>(Resource.Id.signInBtn);
             this.logInBtn = FindViewById<Button>(Resource.Id.logInBtn);
             this.printUsersButton = FindViewById<Button>(Resource.Id.print_data);
             this.clearBtn = FindViewById<Button>(Resource.Id.clear_data);
+            this.batteryPercentage = FindViewById<TextView>(Resource.Id.battery);
 
             this.clearBtn.SetOnClickListener(this);
             this.printUsersButton.SetOnClickListener(this);
             this.signInBtn.SetOnClickListener(this);
             this.logInBtn.SetOnClickListener(this);
-}
 
+            handler = new Handler();
+        }
 
         public void OnClick(View v)
         {
             if (v == this.signInBtn)
             {
-                // Navigate to SigninActivity
                 Intent intent = new Intent(this, typeof(SignUp_activity));
                 StartActivity(intent);
             }
             else if (v == this.logInBtn)
             {
-                // Navigate to LoginActivity
                 Intent intent = new Intent(this, typeof(LogIn_activity));
                 StartActivity(intent);
             }
-             else if (v == printUsersButton)
+            else if (v == printUsersButton)
             {
-                // Retrieve list of users from the database
                 List<User_Data> users = GetUsersFromDatabase();
-
-                // Display users in a pop-up message or logcat
                 DisplayUsers(users);
             }
-            else if(v == clearBtn)
+            else if (v == clearBtn)
             {
-                
-                    // Clear the database
-                    ClearDatabase();
-                
+                ClearDatabase();
             }
-            
-
         }
 
         private void ClearDatabase()
         {
-            // Create an instance of SqlData class
             SqlData sqlData = new SqlData("expenso.db");
-
-            // Clear the database
             sqlData.ClearDatabase();
         }
 
-
         private List<User_Data> GetUsersFromDatabase()
         {
-            // Create an instance of SqlData class
             SqlData sqlData = new SqlData("expenso.db");
-
-            // Retrieve list of users from the database
             return sqlData.GetUsers();
         }
 
         private void DisplayUsers(List<User_Data> users)
         {
-            // Prepare text to display in welcome TextView
             StringBuilder welcomeMessage = new StringBuilder("Welcome, Users:\n");
             foreach (var user in users)
             {
                 welcomeMessage.AppendLine($"ID: {user.Id}, Email: {user.email}, Password: {user.password}");
             }
-
-            // Set the text in the welcome TextView
             this.header.Text = welcomeMessage.ToString();
-
             this.header.SetTextSize(Android.Util.ComplexUnitType.Sp, 14);
         }
-
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
@@ -113,6 +101,86 @@ namespace expenso
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 
-        
+        protected override void OnResume()
+        {
+            base.OnResume();
+            handler.PostDelayed(UpdateBatteryPercentageTask, BatteryUpdateIntervalMs);
+        }
+
+        protected override void OnPause()
+        {
+            base.OnPause();
+            handler.RemoveCallbacks(UpdateBatteryPercentageTask);
+        }
+
+        private void UpdateBatteryPercentageTask()
+        {
+            if (batteryService != null)
+            {
+                int batteryPercent = batteryService.GetBatteryPercentage();
+                UpdateBatteryPercentage(batteryPercent);
+            }
+            handler.PostDelayed(UpdateBatteryPercentageTask, BatteryUpdateIntervalMs);
+        }
+
+        public void UpdateBatteryPercentage(int batteryPercent)
+        {
+            RunOnUiThread(() =>
+            {
+                batteryPercentage.Text = $"Battery: {batteryPercent}%";
+            });
+        }
+
+        protected override void OnStart()
+        {
+            base.OnStart();
+            BindBatteryService();
+        }
+
+        protected override void OnStop()
+        {
+            base.OnStop();
+            UnbindBatteryService();
+        }
+
+        private void BindBatteryService()
+        {
+            Intent batteryServiceIntent = new Intent(this, typeof(BatteryService));
+            serviceConnection = new BatteryServiceConnection(this);
+            BindService(batteryServiceIntent, serviceConnection, Bind.AutoCreate);
+        }
+
+        private void UnbindBatteryService()
+        {
+            if (serviceConnection != null)
+            {
+                UnbindService(serviceConnection);
+            }
+        }
+
+        public class BatteryServiceConnection : Java.Lang.Object, IServiceConnection
+        {
+            private MainActivity mainActivity;
+
+            public BatteryServiceConnection(MainActivity activity)
+            {
+                mainActivity = activity;
+            }
+
+            public void OnServiceConnected(ComponentName name, IBinder service)
+            {
+                BatteryService.LocalBinder binder = service as BatteryService.LocalBinder;
+                if (binder != null)
+                {
+                    BatteryService batteryService = binder.GetBatteryService();
+                    batteryService.SetMainActivity(mainActivity);
+                }
+            }
+
+            public void OnServiceDisconnected(ComponentName name)
+            {
+                // Handle the disconnection from the service if needed
+            }
+        }
     }
 }

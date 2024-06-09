@@ -16,7 +16,7 @@ namespace expenso
     {
         private EditText email, password;
         private Button btn_signIn;
-
+        private TextView login;
 
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -28,9 +28,10 @@ namespace expenso
             this.email = FindViewById<EditText>(Resource.Id.email_signIn);
             this.password = FindViewById<EditText>(Resource.Id.password_signIn);
             this.btn_signIn = FindViewById<Button>(Resource.Id.btn_signIn);
+            this.login = FindViewById<TextView>(Resource.Id.suggestion_signIn);
 
             this.btn_signIn.SetOnClickListener(this);
-
+            this.login.SetOnClickListener(this);
         }
 
         public void OnClick(View v)
@@ -55,6 +56,11 @@ namespace expenso
                     // Display pop-up message for invalid credentials
                     Toast.MakeText(this, "Please enter a valid email and password (password should be at least 6 characters long).", ToastLength.Long).Show();
                 }
+            }
+            else if(v == login)
+            {
+                Intent intent = new Intent(this, typeof(LogIn_activity));
+                StartActivity(intent);
             }
         }
 

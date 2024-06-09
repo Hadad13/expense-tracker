@@ -16,7 +16,7 @@ namespace expenso
     {
         private EditText email, password;
         private Button btn_logIn;
-
+        private TextView register;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             SetContentView(Resource.Layout.log_in);
@@ -26,9 +26,12 @@ namespace expenso
             this.email = FindViewById<EditText>(Resource.Id.email_logIn);
             this.password = FindViewById<EditText>(Resource.Id.password_logIn);
             this.btn_logIn = FindViewById<Button>(Resource.Id.btn_logIn);
+            register = FindViewById<TextView>(Resource.Id.register_logIn);
+
 
             // Set click listener for the login button
             this.btn_logIn.SetOnClickListener(this);
+            register.SetOnClickListener(this);
         }
 
         public void OnClick(View v)
@@ -60,6 +63,11 @@ namespace expenso
                     // Display a message indicating invalid credentials
                     Toast.MakeText(this, "Invalid email or password.", ToastLength.Long).Show();
                 }
+            }
+            else if(v == register)
+            {
+                Intent intent = new Intent(this, typeof(SignUp_activity));
+                StartActivity(intent);
             }
         }
 

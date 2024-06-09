@@ -1,11 +1,15 @@
-﻿using Android.App;
+﻿using Android;
+using Android.App;
 using Android.Content;
+using Android.Content.PM;
 using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+using AndroidX.Core.App;
+using AndroidX.Core.Content;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -21,6 +25,7 @@ namespace expenso
         private TextView amount_tv;
         private ListView tran;
         private List<Transfer> transfers;
+        const int RequestStorageId = 0;
 
 
 
@@ -34,6 +39,8 @@ namespace expenso
             tran = FindViewById<ListView>(Resource.Id.transfers_lv);
 
             back_btn.SetOnClickListener(this);
+            CheckAndRequestPermissions();
+
 
 
             transfers = new List<Transfer>();
@@ -48,6 +55,32 @@ namespace expenso
             tran.ItemClick += Tran_ItemClick;
         }
 
+        private void CheckAndRequestPermissions()
+        {
+            if (ContextCompat.CheckSelfPermission(this, Manifest.Permission.ReadExternalStorage) != (int)Permission.Granted ||
+                ContextCompat.CheckSelfPermission(this, Manifest.Permission.WriteExternalStorage) != (int)Permission.Granted)
+            {
+                ActivityCompat.RequestPermissions(this, new String[] { Manifest.Permission.ReadExternalStorage, Manifest.Permission.WriteExternalStorage }, RequestStorageId);
+            }
+        }
+        // Handle the permission request response
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
+        {
+            if (requestCode == RequestStorageId)
+            {
+                if (grantResults.Length > 0 && grantResults[0] == Permission.Granted)
+                {
+                    // Permission granted, handle accordingly
+                }
+                else
+                {
+                    // Permission denied, inform the user
+                    Toast.MakeText(this, "Storage permission is required to access photos.", ToastLength.Short).Show();
+                }
+            }
+
+            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
         private void Tran_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
             // Get the clicked transfer

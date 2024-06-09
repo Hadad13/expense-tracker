@@ -12,6 +12,7 @@ public class CategoryView_activity
 	static {
 		__md_methods = 
 			"n_onCreate:(Landroid/os/Bundle;)V:GetOnCreate_Landroid_os_Bundle_Handler\n" +
+			"n_onRequestPermissionsResult:(I[Ljava/lang/String;[I)V:GetOnRequestPermissionsResult_IarrayLjava_lang_String_arrayIHandler\n" +
 			"n_onClick:(Landroid/view/View;)V:GetOnClick_Landroid_view_View_Handler:Android.Views.View/IOnClickListenerInvoker, Mono.Android, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null\n" +
 			"";
 		mono.android.Runtime.register ("expenso.CategoryView_activity, expenso", CategoryView_activity.class, __md_methods);
@@ -33,6 +34,14 @@ public class CategoryView_activity
 	}
 
 	private native void n_onCreate (android.os.Bundle p0);
+
+
+	public void onRequestPermissionsResult (int p0, java.lang.String[] p1, int[] p2)
+	{
+		n_onRequestPermissionsResult (p0, p1, p2);
+	}
+
+	private native void n_onRequestPermissionsResult (int p0, java.lang.String[] p1, int[] p2);
 
 
 	public void onClick (android.view.View p0)

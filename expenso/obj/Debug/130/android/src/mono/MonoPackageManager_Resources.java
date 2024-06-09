@@ -3,6 +3,9 @@ public class MonoPackageManager_Resources {
 	public static String[] Assemblies = new String[]{
 		/* We need to ensure that "expenso.dll" comes first in this list. */
 		"expenso.dll",
+		"Caliburn.Micro.Core.dll",
+		"Caliburn.Micro.Platform.Core.dll",
+		"Caliburn.Micro.Platform.dll",
 		"Microcharts.dll",
 		"Microcharts.Droid.dll",
 		"Newtonsoft.Json.dll",

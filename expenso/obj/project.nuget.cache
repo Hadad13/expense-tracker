@@ -1,9 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "PM28TQDqCNI7UAfWfSbicCF8W/YSadaSa8Uzmt0sz+pqs+wOOmncM/F/4vazJWuVjvoZnyInVYyEN1VZXBtLig==",
+  "dgSpecHash": "ZmzrAGjnqXqdnafzkqxYXr+8/BQf2q0PGDbGXM2MrzhY4S3gyCedJkUtHv6f+9Cbl0qVYM9cJTbGqwUdcomfzQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\omrik\\source\\repos\\expenso\\expenso\\expenso.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\omrik\\.nuget\\packages\\caliburn.micro\\4.0.212\\caliburn.micro.4.0.212.nupkg.sha512",
+    "C:\\Users\\omrik\\.nuget\\packages\\caliburn.micro.core\\4.0.212\\caliburn.micro.core.4.0.212.nupkg.sha512",
     "C:\\Users\\omrik\\.nuget\\packages\\microcharts\\0.9.5.9\\microcharts.0.9.5.9.nupkg.sha512",
     "C:\\Users\\omrik\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\omrik\\.nuget\\packages\\skiasharp\\2.80.2\\skiasharp.2.80.2.nupkg.sha512",
@@ -17,6 +19,7 @@
     "C:\\Users\\omrik\\.nuget\\packages\\system.memory\\4.5.3\\system.memory.4.5.3.nupkg.sha512",
     "C:\\Users\\omrik\\.nuget\\packages\\system.numerics.vectors\\4.5.0\\system.numerics.vectors.4.5.0.nupkg.sha512",
     "C:\\Users\\omrik\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\4.5.2\\system.runtime.compilerservices.unsafe.4.5.2.nupkg.sha512",
+    "C:\\Users\\omrik\\.nuget\\packages\\system.runtime.serialization.primitives\\4.3.0\\system.runtime.serialization.primitives.4.3.0.nupkg.sha512",
     "C:\\Users\\omrik\\.nuget\\packages\\xamarin.androidx.activity\\1.8.2.1\\xamarin.androidx.activity.1.8.2.1.nupkg.sha512",
     "C:\\Users\\omrik\\.nuget\\packages\\xamarin.androidx.annotation\\1.7.1.1\\xamarin.androidx.annotation.1.7.1.1.nupkg.sha512",
     "C:\\Users\\omrik\\.nuget\\packages\\xamarin.androidx.annotation.experimental\\1.4.0.1\\xamarin.androidx.annotation.experimental.1.4.0.1.nupkg.sha512",
